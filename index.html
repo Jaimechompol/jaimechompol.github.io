@@ -205,7 +205,7 @@
             <div class="jugador">
                 <h3>Jugador</h3>
                 <div class="eleccion-imagen">
-                    <img id="jugador-img" class="choice-img" src="./lanzando-manos.gif" alt="Elige una opción">
+                    <img id="jugador-img" class="choice-img" src="img/lanzando-manos.gif" alt="Elige una opción">
                     <div class="eleccion-texto" id="jugador-eleccion">Elige una opción</div>
                 </div>
             </div>
@@ -213,7 +213,7 @@
             <div class="cpu">
                 <h3>CPU</h3>
                 <div class="eleccion-imagen">
-                    <img id="cpu-img" class="choice-img" src="./lanzando-manos-cpu.gif" alt="CPU pensando">
+                    <img id="cpu-img" class="choice-img" src="img/lanzando-manos.gif" alt="CPU pensando">
                     <div class="eleccion-texto" id="cpu-eleccion">Esperando...</div>
                 </div>
             </div>
@@ -284,10 +284,10 @@
             const imgElement = document.getElementById(elemento);
             
             if (opcion) {
-                imgElement.src = './' + imgMap[opcion];
+                imgElement.src = 'img/' + imgMap[opcion];
                 imgElement.alt = opcion.charAt(0).toUpperCase() + opcion.slice(1);
             } else {
-                imgElement.src = './lanzando-manos.gif';
+                imgElement.src = 'img/lanzando-manos.gif';
                 imgElement.alt = 'Pensando...';
             }
         }
@@ -324,14 +324,14 @@
                 resultado = '¡Ganaste la partida!';
                 claseResultado = 'ganaste';
                 victorias++;
-                resultadoGif.src = './gana-usuario.gif';
+                resultadoGif.src = 'img/gana-usuario.gif';
                 resultadoGif.alt = '¡Ganaste!';
                 resultadoGif.style.display = 'block';
             } else {
                 resultado = '¡Perdiste la partida!';
                 claseResultado = 'perdiste';
                 derrotas++;
-                resultadoGif.src = './gana-cpu.gif';
+                resultadoGif.src = 'img/gana-cpu.gif';
                 resultadoGif.alt = '¡Perdiste!';
                 resultadoGif.style.display = 'block';
             }
@@ -350,20 +350,12 @@
         
         // Inicializar anuncios cuando la página carga
         window.addEventListener('load', function() {
-            // Solo cargar anuncios si NO estamos en archivo local
-            if (window.location.protocol !== 'file:') {
-                try {
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.log('AdSense error:', e);
-                }
-            } else {
-                // Mostrar mensaje en local
-                document.querySelectorAll('.anuncio').forEach(function(anuncio) {
-                    anuncio.innerHTML = '<div class="anuncio-label">Publicidad</div><div style="padding: 20px; color: #888; font-style: italic;">Los anuncios se mostrarán cuando subas la página a un servidor web</div>';
-                });
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.log('AdSense aún no está listo');
             }
         });
     </script>
