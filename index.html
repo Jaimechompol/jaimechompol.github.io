@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Piedra, Papel o Tijera</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7431880456256034"
+     crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .juego {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        
+        .botones {
+            margin: 30px 0;
+        }
+        
+        button {
+            font-size: 18px;
+            padding: 15px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2E7D32;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: #388E3C;
+            transform: scale(1.05);
+        }
+        
+        .elecciones {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+        
+        .jugador, .cpu {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            width: 250px;
+        }
+        
+        .jugador h3, .cpu h3 {
+            color: white;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .eleccion-imagen {
+            margin: 20px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .choice-img {
+            max-width: 100px;
+            max-height: 100px;
+            display: block;
+        }
+        
+        .eleccion-texto {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .resultado {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 30px 0;
+            min-height: 30px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(0,0,0,0.3);
+        }
+        
+        .ganaste {
+            color: #4CAF50;
+        }
+        
+        .perdiste {
+            color: #F44336;
+        }
+        
+        .empate {
+            color: #FFC107;
+        }
+        
+        .estadisticas {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            margin-top: 30px;
+        }
+        
+        .estadisticas h3 {
+            color: white;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        
+        .stat {
+            margin: 0 10px;
+        }
+        
+        .stat-numero {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .stat-texto {
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+        
+        .resultado-gif {
+            max-width: 200px;
+            max-height: 150px;
+            margin: 10px auto;
+            display: none;
+        }
+        
+        /* Estilos para anuncios */
+        .anuncio {
+            margin: 20px 0;
+            text-align: center;
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        
+        .anuncio-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="juego">
+        <!-- Anuncio Superior -->
+        <div class="anuncio">
+            <div class="anuncio-label">Publicidad</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7431880456256034"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+        
+        <h1>🎮 Juego de Piedra, Papel o Tijera</h1>
+        
+        <div class="botones">
+            <button onclick="jugar('piedra')">Piedra ✊</button>
+            <button onclick="jugar('papel')">Papel ✋</button>
+            <button onclick="jugar('tijera')">Tijera ✌️</button>
+        </div>
+        
+        <div class="elecciones">
+            <div class="jugador">
+                <h3>Jugador</h3>
+                <div class="eleccion-imagen">
+                    <img id="jugador-img" class="choice-img" src="./lanzando-manos.gif" alt="Elige una opción">
+                    <div class="eleccion-texto" id="jugador-eleccion">Elige una opción</div>
+                </div>
+            </div>
+            
+            <div class="cpu">
+                <h3>CPU</h3>
+                <div class="eleccion-imagen">
+                    <img id="cpu-img" class="choice-img" src="./lanzando-manos-cpu.gif" alt="CPU pensando">
+                    <div class="eleccion-texto" id="cpu-eleccion">Esperando...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="resultado" id="resultado"></div>
+        <img id="resultado-gif" class="resultado-gif">
+        
+        <!-- Anuncio Medio -->
+        <div class="anuncio">
+            <div class="anuncio-label">Publicidad</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7431880456256034"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+        
+        <div class="estadisticas">
+            <h3>📊 Estadísticas</h3>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-numero" id="partidas">0</div>
+                    <div class="stat-texto">Partidas jugadas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-numero" id="victorias">0</div>
+                    <div class="stat-texto">Victorias</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-numero" id="derrotas">0</div>
+                    <div class="stat-texto">Derrotas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-numero" id="empates">0</div>
+                    <div class="stat-texto">Empates</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Anuncio Inferior -->
+        <div class="anuncio">
+            <div class="anuncio-label">Publicidad</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-7431880456256034"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <script>
+        // Variables para las estadísticas
+        let partidasJugadas = 0;
+        let victorias = 0;
+        let derrotas = 0;
+        let empates = 0;
+        
+        function actualizarImagen(elemento, opcion, esCPU = false) {
+            const imgMap = {
+                'piedra': 'piedra' + (esCPU ? '-cpu' : '') + '.gif',
+                'papel': 'papel' + (esCPU ? '-cpu' : '') + '.gif',
+                'tijera': 'tijeras' + (esCPU ? '-cpu' : '') + '.gif'
+            };
+            
+            const imgElement = document.getElementById(elemento);
+            
+            if (opcion) {
+                imgElement.src = './' + imgMap[opcion];
+                imgElement.alt = opcion.charAt(0).toUpperCase() + opcion.slice(1);
+            } else {
+                imgElement.src = './lanzando-manos.gif';
+                imgElement.alt = 'Pensando...';
+            }
+        }
+        
+        function jugar(eleccion) {
+            // Mostrar la elección del jugador
+            const jugadorEleccion = eleccion.charAt(0).toUpperCase() + eleccion.slice(1);
+            document.getElementById('jugador-eleccion').textContent = jugadorEleccion;
+            actualizarImagen('jugador-img', eleccion);
+            
+            // Generar elección de la CPU
+            const opciones = ['piedra', 'papel', 'tijera'];
+            const cpu = opciones[Math.floor(Math.random() * opciones.length)];
+            const cpuEleccion = cpu.charAt(0).toUpperCase() + cpu.slice(1);
+            document.getElementById('cpu-eleccion').textContent = cpuEleccion;
+            actualizarImagen('cpu-img', cpu, true);
+            
+            // Determinar el resultado
+            const resultadoElement = document.getElementById('resultado');
+            const resultadoGif = document.getElementById('resultado-gif');
+            let resultado;
+            let claseResultado;
+            
+            if (eleccion === cpu) {
+                resultado = '¡Empate!';
+                claseResultado = 'empate';
+                empates++;
+                resultadoGif.style.display = 'none';
+            } else if (
+                (eleccion === 'piedra' && cpu === 'tijera') ||
+                (eleccion === 'papel' && cpu === 'piedra') ||
+                (eleccion === 'tijera' && cpu === 'papel')
+            ) {
+                resultado = '¡Ganaste la partida!';
+                claseResultado = 'ganaste';
+                victorias++;
+                resultadoGif.src = './gana-usuario.gif';
+                resultadoGif.alt = '¡Ganaste!';
+                resultadoGif.style.display = 'block';
+            } else {
+                resultado = '¡Perdiste la partida!';
+                claseResultado = 'perdiste';
+                derrotas++;
+                resultadoGif.src = './gana-cpu.gif';
+                resultadoGif.alt = '¡Perdiste!';
+                resultadoGif.style.display = 'block';
+            }
+            
+            // Mostrar el resultado
+            resultadoElement.textContent = resultado;
+            resultadoElement.className = 'resultado ' + claseResultado;
+            
+            // Actualizar estadísticas
+            partidasJugadas++;
+            document.getElementById('partidas').textContent = partidasJugadas;
+            document.getElementById('victorias').textContent = victorias;
+            document.getElementById('derrotas').textContent = derrotas;
+            document.getElementById('empates').textContent = empates;
+        }
+        
+        // Inicializar anuncios cuando la página carga
+        window.addEventListener('load', function() {
+            // Solo cargar anuncios si NO estamos en archivo local
+            if (window.location.protocol !== 'file:') {
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.log('AdSense error:', e);
+                }
+            } else {
+                // Mostrar mensaje en local
+                document.querySelectorAll('.anuncio').forEach(function(anuncio) {
+                    anuncio.innerHTML = '<div class="anuncio-label">Publicidad</div><div style="padding: 20px; color: #888; font-style: italic;">Los anuncios se mostrarán cuando subas la página a un servidor web</div>';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
